@@ -21,9 +21,6 @@ __author__ = 'miku'
 
 # -*- coding: utf-8 -*-
 from openerp import models, fields
-import logging
-
-_logger = logging.getLogger(__name__)
 
 
 class ProductCategory(models.Model):
@@ -33,5 +30,6 @@ class ProductCategory(models.Model):
         'ir.sequence',
         'Lot Sequence',
         domain=[('code', '=', 'stock.lot.serial')],
+        ondelete='restrict',
         help='The lot sequence to be used in manufacturing'
     )

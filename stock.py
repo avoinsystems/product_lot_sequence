@@ -21,9 +21,6 @@ __author__ = 'miku'
 
 # -*- coding: utf-8 -*-
 from openerp import models, api
-import logging
-
-_logger = logging.getLogger(__name__)
 
 
 class StockProductionLot(models.Model):
