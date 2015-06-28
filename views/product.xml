@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- FORM: Product Category -->
+        <record id="product_category_form_lot_sequence" model="ir.ui.view">
+            <field name="name">product.category.form.lot.sequence</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="type" position="after">
+                        <field name="lot_sequence"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>

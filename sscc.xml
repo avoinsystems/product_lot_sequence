@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Disable the default package sequence -->
+        <record id="stock.seq_quant_package" model="ir.sequence">
+            <field name="active" eval="False"/>
+        </record>
+
+        <!-- Create a SSCC sequence for stock.quant.package -->
+        <record id="seq_sscc_quant_package" model="ir.sequence">
+            <field name="name">SSCC Packages</field>
+            <field name="code">stock.quant.package</field>
+            <!-- Must be filled to follow company preferences. E = Extension Digit, G = GS1 company prefix. -->
+            <field name="prefix">(00) E GGGGGGGGG</field>
+            <field name="padding">7</field>
+            <field name="company_id" eval="False"/>
+            <field name="implementation">standard</field>
+        </record>
+
+        <!-- Modify the reports to display SSCC barcode correctly -->
+         <template id="sscc_barcode_small" name="SSCC barcode small" inherit_id="stock.report_package_barcode_small">
+            <xpath expr="//img[contains(@t-att-src, 'barcode')]" position="replace">
+                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name_for_barcode, 600, 100)"
+                     style="width:300px;height:50px"/>
+            </xpath>
+        </template>
+        <template id="sscc_barcode" name="SSCC barcode" inherit_id="stock.report_package_barcode">
+            <xpath expr="//img[contains(@t-att-src, 'barcode')]" position="replace">
+                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name_for_barcode, 600, 100)"
+                     style="width:300px;height:50px"/>
+            </xpath>
+        </template>
+        <template id="sscc_picking" name="SSCC picking" inherit_id="stock.report_picking">
+            <xpath expr="//span[contains(@t-if, 'package_id')]/img[contains(@t-att-src, 'barcode')]" position="replace">
+                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', pack_operation.package_id.name_for_barcode, 600, 100)"
+                     style="width:300px;height:50px"/>
+            </xpath>
+        </template>
+
+    </data>
+</openerp>
+
