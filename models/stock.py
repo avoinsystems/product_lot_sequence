@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Avoin Systems (http://avoin.systems).
+#    Copyright (C) 2018 Avoin Systems (http://avoin.systems).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,8 +19,7 @@
 ##############################################################################
 __author__ = 'miku'
 
-# -*- coding: utf-8 -*-
-from openerp import models, api
+from odoo import models, api
 
 
 class StockProductionLot(models.Model):
@@ -32,17 +31,17 @@ class StockProductionLot(models.Model):
         if not self.product_id:
             self.name = False
 
-        sequence_obj = self.env['ir.sequence']
         if self.product_id.categ_id and self.product_id.categ_id.lot_sequence:
             # If the product category has a sequence, use it to get the next lot number
-            self.name = sequence_obj.next_by_id(self.product_id.categ_id.lot_sequence.id)
+            self.name = self.product_id.categ_id.lot_sequence.next_by_id()
         else:
             # If the product category doesn't have a sequence, use the default lot numbering scheme
-            self.name = sequence_obj.next_by_id(self.env.ref('stock.sequence_production_lots').id)
+            self.name = self.env.ref('stock.sequence_production_lots').next_by_id()
 
-    def default_get(self, cr, uid, fields_list, context=None):
+    @api.model
+    def default_get(self, fields_list):
         if 'name' in fields_list:
             # Don't set the default value for `name`. It will be set in the onchange method above.
             fields_list.remove('name')
 
-        return super(StockProductionLot, self).default_get(cr, uid, fields_list, context)
+        return super(StockProductionLot, self).default_get(fields_list)

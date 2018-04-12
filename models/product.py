@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Avoin Systems (http://avoin.systems).
+#    Copyright (C) 2018 Avoin Systems (http://avoin.systems).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,16 +19,15 @@
 ##############################################################################
 __author__ = 'miku'
 
-# -*- coding: utf-8 -*-
-from openerp import models, fields
+from odoo import models, fields
 
 
 class ProductCategory(models.Model):
     _inherit = 'product.category'
 
     lot_sequence = fields.Many2one(
-        'ir.sequence',
-        'Lot Sequence',
+        comodel_name='ir.sequence',
+        string='Lot Sequence',
         domain=[('code', '=', 'stock.lot.serial')],
         ondelete='restrict',
         help='The lot sequence to be used in manufacturing'

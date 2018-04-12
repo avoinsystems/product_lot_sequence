@@ -18,4 +18,4 @@
 #
 ##############################################################################
 # noinspection PyUnresolvedReferences
-import product, stock
+from . import models
